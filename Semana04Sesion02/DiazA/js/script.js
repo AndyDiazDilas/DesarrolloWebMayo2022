@@ -153,7 +153,6 @@ $('#tipoCambio').change(function () {
 });
 
 let itemActual;
-let carritoCompras= [];
 
 function productoActual(id){
   let  item = productos.find(item => item.codigo === id)
@@ -164,23 +163,37 @@ function productoActual(id){
   $("#DescripcionProducto").text(item.descripcion);
 }
 
-$("#agregarItem").on("click", function () {
-  carritoCompras.push(itemActual);
-  cargarCarrito();
-});
+let carrito = {}
 
-let totalCarrito = 0;
 
-function cargarCarrito(){
-  totalCarrito = 0
-  $("#carrito").text("");
-  carritoCompras.forEach(element => {
-    $("#carrito").append('<div class="media"><a class="pull-left" href="#!"><img class="media-object" src="'
-    +element.imagen+'" alt="image"/></a><div class="media-body"><h4 class="media-heading"><a href="#!">'
-    +element.nombre+'</a></h4><div class="cart-price"><span>1 x</span><span>'
-    +element.valor+'</span></div><h5><strong>'
-    +element.valor+'</strong></h5></div><a href="#!" class="remove"><i class="tf-ion-close"></i></a></div>');
-    totalCarrito +=element.valor
-  });
-  $("#totalCarrito").text(totalCarrito);
+productos.addEventListener('click', e =>{
+  addCarrito(e)
+})
+
+const addCarrito = e => {
+  //console.log(e.target);
+  //console.log(e.target.classList.contains(tf - ion - android - cart));
+  if (e.target.classList.contains(tf-ion-android-cart)) {
+
+      setCarrito(e.target.parentElement)
+  }
+  e.stopPropagation()
+}
+
+const setCarrito = objeto => {
+    console.log(objeto)
+    const producto = {
+      id: objeto.querySelector('.tf-ion-android-cart').dataset.id,
+      tittle: objeto.querySelector('h5').textContent,
+      precio: objeto.querySelector('p').textContent,
+      cantidad: 1 
+    }
+
+    if(carrito.hasOwnProperty(producto.id)) {
+      producto.cantidad = carrito[producto.id].cantidad + 1
+    }
+
+    carrito[producto.id] = {...producto}
+
+    console.log(producto)
 }
