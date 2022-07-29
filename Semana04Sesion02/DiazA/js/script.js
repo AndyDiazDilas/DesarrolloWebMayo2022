@@ -173,6 +173,7 @@ productos.addEventListener('click', e =>{
 const addCarrito = e => {
   //console.log(e.target);
   //console.log(e.target.classList.contains(tf - ion - android - cart));
+  //tarea lista
   if (e.target.classList.contains(tf-ion-android-cart)) {
 
       setCarrito(e.target.parentElement)
